@@ -98,7 +98,11 @@ PronaS_silt <- preparing_data_for_mpspline2(columns = contains("br_silt_content"
                                             new_values_column = "br_silt_content_g_kg") %>% 
   select(c(soil_ID, contains("Boundary"), br_silt_content_g_kg))
 
-# Function to harmonize soil data in standard depths:
+# Function to harmonize soil data in standard depths. Harmonizing metho is
+# mass preserving with equal-area quadratic smoothing splines. See method at:
+# Modelling soil attribute depth functions with equal-area quadratic smoothing
+# splines: https://doi.org/10.1016/S0016-7061(99)00003-8
+
 harm_by_mpsspline <- function(
     # Input args: data.frame and soil property:
   object = PronaS_clay, soil_prop = "br_clay_content_g_kg") {

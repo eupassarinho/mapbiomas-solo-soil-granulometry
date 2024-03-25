@@ -54,7 +54,11 @@ areia_data <- data %>% select(c(Soil.ID, contains("Boundary"), areia))
 
 # Harmonizing soil profiles -----------------------------------------------
 
-# Function to harmonize soil data in standard depths:
+# Function to harmonize soil data in standard depths. Harmonizing metho is
+# mass preserving with equal-area quadratic smoothing splines. See method at:
+# Modelling soil attribute depth functions with equal-area quadratic smoothing
+# splines: https://doi.org/10.1016/S0016-7061(99)00003-8
+
 harm_by_mpsspline <- function(
     # Input args: data.frame and soil property:
     object = argila_data, soil_prop = "argila") {
