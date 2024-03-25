@@ -9,8 +9,12 @@ require(leaflet.esri)# For geospatial data viz
 
 # Loading raw data from FEBR ----------------------------------------------
 
+# Data coming from:
+# https://github.com/Laboratorio-de-Pedometria/febr-output/blob/4075f9b6cea795893f4d0deb7d3af4e524fd3923/src/prepare-snapshot.R#L746
+
 # Loading FEBR superconjunto:
-original_data <- read.table("./febr-superconjunto.txt", header = T, sep = ";")
+original_data <- read.table("./source_data/febr-superconjunto.txt", 
+                            header = T, sep = ";")
 
 # Handling soil data ------------------------------------------------------
 
@@ -142,16 +146,8 @@ spatial_points <- vect(full_data ,
                        crs = "EPSG:4326",              # WGS84 (original from file)
                        keep = TRUE)
 
-# Viewing it:
-plot(spatial_points)
-
-leaflet(spatial_points) %>%
-  addTiles(group = "OSM (default)",
-           options = providerTileOptions(maxZoom = 20)) %>% 
-  #addEsriBasemapLayer(key = esriBasemapLayers$Imagery, group = "ESRI Imagery") %>% 
-  addCircleMarkers(color = "#FF551188", radius = 2)
-  
 # Exporting data as ESRI shapefile to ingest into GEE:
 writeVector(x = spatial_points,
-            filename = "febr-superconjunto_processed_granulometry.shp",
+            filename = "./project_products/01-febr_superconjunto-processed_granulometry.shp",
             filetype = "ESRI Shapefile", overwrite = TRUE)
+
