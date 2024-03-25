@@ -64,7 +64,25 @@ FEBR_and_PronaS_samples <- terra::extract(
 # Don't need for clustering from here:
 stopCluster(cl)
 
-# Harmonizing PronaSolos --------------------------------------------------
+# Harmonizing PronaSolos 1 (weighted average) -----------------------------
+
+FEBR_and_PronaS_samples <- FEBR_and_PronaS_samples %>% 
+  mutate(`PronaS_00_30cm_clay_g_kg` = (`br_clay_content_0-5cm_pred_g_kg`*(1/6))+
+           (`br_clay_content_5-15cm_pred_g_kg`*(2/6))+
+           (`br_clay_content_15-30cm_pred_g_kg`*(3/6))) %>% 
+  mutate(`PronaS_00_30cm_sand_g_kg` = (`br_sand_content_0-5cm_pred_g_kg`*(1/6))+
+           (`br_sand_content_5-15cm_pred_g_kg`*(2/6))+
+           (`br_sand_content_15-30cm_pred_g_kg`*(3/6))) %>% 
+  mutate(`PronaS_00_30cm_silt_g_kg` = (`br_silt_content_0-5cm_pred_g_kg`*(1/6))+
+           (`br_silt_content_5-15cm_pred_g_kg`*(2/6))+
+           (`br_silt_content_15-30cm_pred_g_kg`*(3/6)))
+
+write_xlsx(FEBR_and_PronaS_samples,
+           "./project_products/02-febr_and_PronaSolos_harmz_w_average.xlsx",
+           col_names = T)
+
+# Harmonizing PronaSolos (mass preserving method) -------------------------
+
 # Harmonizing PronaSolos samples from layers (0 - 5 cm, 5 - 15, 15 - 30,
 # 30 - 60, and 60 - 100) to single layer (0 - 30 cm):
 
@@ -156,4 +174,5 @@ remove(preparing_data_for_mpspline2, PronaS_clay, PronaS_sand, PronaS_silt,
        harm_by_mpsspline, argila_harmonized, silte_harmonized, areia_harmonized)
 
 write_xlsx(full_data_PronaS_harmd,
-           "./project_products/02-febr_and_PronaSolos_harmz.xlsx", col_names = T)
+           "./project_products/02-febr_and_PronaSolos_harmz_mpspline2.xlsx",
+           col_names = T)
