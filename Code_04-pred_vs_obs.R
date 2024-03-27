@@ -46,36 +46,50 @@ texture_scatterplot <- function(
     geom_smooth(method = "lm", formula = y ~ x, se = FALSE, linewidth = 1, color = "#990000")+
     theme_bw()+
     coord_fixed(ratio = 1, xlim = c(0, 1000), ylim = c(0, 1000))+
-    annotate(geom = "table", x = 0, y = 1000, label = list(df))
+    annotate(geom = "table", x = 1000, y = 0, label = list(df))+
+    labs(y = expression("Teor de argila observado"~(g~kg^-1)))
   
 }
 
-(texture_scatterplot() | texture_scatterplot(
+grafico <- (texture_scatterplot() + 
+    labs(x = expression("MapBiomas Solo: argila"~(g~kg^-1))) | texture_scatterplot(
   aesthetic = aes(prediction_sand_0_30cm, areia_0000),
-  observado = pred_vs_obs$areia_0000, predito = pred_vs_obs$prediction_sand_0_30cm) |
+  observado = pred_vs_obs$areia_0000, predito = pred_vs_obs$prediction_sand_0_30cm) + 
+    labs(y = expression("Teor de areia observado"~(g~kg^-1)),
+         x = expression("MapBiomas Solo: areia"~(g~kg^-1))) |
   texture_scatterplot(
     aesthetic = aes(prediction_silt_0_30cm, silte_0000),
-    observado = pred_vs_obs$silte_0000, predito = pred_vs_obs$prediction_silt_0_30cm))/
+    observado = pred_vs_obs$silte_0000, predito = pred_vs_obs$prediction_silt_0_30cm) + 
+    labs(y = expression("Teor de silte observado"~(g~kg^-1)),
+         x = expression("MapBiomas Solo: silte"~(g~kg^-1))))/
   (texture_scatterplot(
     aesthetic = aes(clay_soilgrids, argila_000),
     observado = pred_vs_obs$prediction_clay_0_30cm, predito = pred_vs_obs$clay_soilgrids
-    ) | texture_scatterplot(
+    ) + 
+     labs(x = expression("SoilGrids: argila"~(g~kg^-1))) | texture_scatterplot(
     aesthetic = aes(sand_soilgrids, areia_0000),
-    observado = pred_vs_obs$areia_0000, predito = pred_vs_obs$sand_soilgrids) |
+    observado = pred_vs_obs$areia_0000, predito = pred_vs_obs$sand_soilgrids)+
+     labs(y = expression("Teor de areia observado"~(g~kg^-1)), 
+          x = expression("SoilGrids: areia"~(g~kg^-1)))|
      texture_scatterplot(
        aesthetic = aes(silt_soilgrids, silte_0000),
-       observado = pred_vs_obs$silte_0000, predito = pred_vs_obs$silt_soilgrids))/
+       observado = pred_vs_obs$silte_0000, predito = pred_vs_obs$silt_soilgrids)+
+     labs(y = expression("Teor de silte observado"~(g~kg^-1)), 
+          x = expression("SoilGrids: silte"~(g~kg^-1))))/
   (texture_scatterplot(
     aesthetic = aes(PronaS_00_30cm_clay_g_kg, argila_000),
-    observado = pred_vs_obs$prediction_clay_0_30cm, predito = pred_vs_obs$PronaS_00_30cm_clay_g_kg
-  ) | texture_scatterplot(
+    observado = pred_vs_obs$prediction_clay_0_30cm, predito = pred_vs_obs$PronaS_00_30cm_clay_g_kg) + 
+    labs(y = expression("Teor de argila observado"~(g~kg^-1)),
+         x = expression("PronaSolos: argila"~(g~kg^-1))) | texture_scatterplot(
     aesthetic = aes(PronaS_00_30cm_sand_g_kg, areia_0000),
-    observado = pred_vs_obs$areia_0000, predito = pred_vs_obs$PronaS_00_30cm_sand_g_kg) |
+    observado = pred_vs_obs$areia_0000, predito = pred_vs_obs$PronaS_00_30cm_sand_g_kg) + 
+    labs(y = expression("Teor de areia observado"~(g~kg^-1)),
+         x = expression("PronaSolos: areia"~(g~kg^-1))) |
     texture_scatterplot(
       aesthetic = aes(PronaS_00_30cm_silt_g_kg, silte_0000),
-      observado = pred_vs_obs$silte_0000, predito = pred_vs_obs$PronaS_00_30cm_silt_g_kg))
-
+      observado = pred_vs_obs$silte_0000, predito = pred_vs_obs$PronaS_00_30cm_silt_g_kg) + 
+    labs(y = expression("Teor de silte observado"~(g~kg^-1)),
+         x = expression("PronaSolos: silte"~(g~kg^-1))))
 
 ggsave("./project_products/03-soil_texture_pred_vs_obs.png", 
        width = 297, height = 297, units = "mm", dpi = 800)
-
