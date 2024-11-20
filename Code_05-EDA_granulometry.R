@@ -6,7 +6,7 @@ lapply(libraries, require, character.only = T)
 remove(libraries)
 
 df <- read_csv("source_data/2024-11-12-clay_silt_sand.csv")
-
+#
 # Particle size distribution plots ----------------------------------------
 
 hist_data <- hist(df$silt)
@@ -115,3 +115,4 @@ ggtern(df, aes(x = sand, y = clay, z = silt))+
 
 ggsave("./project_products/2024-11-17-soil_texture_plot.png",
        last_plot(), width = 12, height = 12, units = "cm", dpi = 600)
+
